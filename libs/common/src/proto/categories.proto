@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package categories;
+
+service CategoryService {
+    rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse) {}
+    rpc CategoryDetails(CategoryDetailsRequest) returns (CategoryDetailsResponse) {}
+}
+
+message CreateCategoryRequest {
+    string name = 1;
+    string slug = 2;
+}
+
+message CreateCategoryResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    string id = 3;
+}
+
+message CategoryDetailsRequest {
+    string id = 1;
+}
+
+message CategoryDetailsResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    string id = 3;
+    string name = 4;
+    string slug = 5;
+    string createdAt = 6;
+}
