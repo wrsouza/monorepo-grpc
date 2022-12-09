@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserDetailsResponse {
+export class PermissionDetailsResponse {
   @ApiProperty()
   id: string;
 
@@ -8,13 +8,7 @@ export class UserDetailsResponse {
   name: string;
 
   @ApiProperty()
-  email: string;
-
-  @ApiProperty()
-  isAdmin: boolean;
-
-  @ApiProperty()
-  roles: string[];
+  description: string;
 
   @ApiProperty()
   createdAt: Date;

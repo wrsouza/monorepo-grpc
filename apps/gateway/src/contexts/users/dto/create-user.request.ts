@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsString } from 'class-validator';
 
 export class CreateUserRequest {
   @ApiProperty()
@@ -13,4 +13,12 @@ export class CreateUserRequest {
   @ApiProperty()
   @IsString()
   password: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  isAdmin: boolean;
+
+  @ApiProperty()
+  @IsArray()
+  roles: string[];
 }

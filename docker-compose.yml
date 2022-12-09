@@ -1,0 +1,89 @@
+services:
+  orders:
+    build:
+      context: .
+      dockerfile: ./apps/orders/Dockerfile
+      target: development
+    command: npm run start:dev orders
+    ports:
+      - '50054:50054'
+    env_file:
+      - ./apps/orders/.env
+    depends_on:
+      - postgres
+      - products
+      - customers
+      - auth
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  products:
+    build:
+      context: .
+      dockerfile: ./apps/products/Dockerfile
+      target: development
+    command: npm run start:dev products
+    ports:
+      - '50053:50053'
+    env_file:
+      - ./apps/products/.env
+    depends_on:
+      - postgres
+      - auth
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  customers:
+    build:
+      context: .
+      dockerfile: ./apps/customers/Dockerfile
+      target: development
+    command: npm run start:dev customers
+    ports:
+      - '50052:50052'
+    env_file:
+      - ./apps/customers/.env
+    depends_on:
+      - postgres
+      - auth
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: npm run start:dev auth
+    ports:
+      - '50051:50051'
+    env_file:
+      - ./apps/auth/.env
+    depends_on:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      
+  gateway:
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: development
+    command: npm run start:dev gateway
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./apps/gateway/.env
+    depends_on:
+      - postgres
+      - auth
+      - customers
+      - products
+      - orders
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
