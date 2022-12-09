@@ -6,12 +6,12 @@ import {
   CreateCustomerCommand,
   CreateCustomerRequest,
   CreateCustomerResponse,
-} from '../contexts/customers/application/commands';
+} from './application/commands';
 import {
   CustomerDetailsQuery,
   CustomerDetailsRequest,
   CustomerDetailsResponse,
-} from '../contexts/customers/application/queries';
+} from './application/queries';
 
 @ApiTags('Customers')
 @Controller('customers')

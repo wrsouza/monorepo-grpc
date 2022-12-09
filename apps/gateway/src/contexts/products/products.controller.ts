@@ -13,6 +13,11 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import {
+  IProductService,
+  PRODUCT_PACKAGE_NAME,
+  PRODUCT_SERVICE_NAME,
+} from '@app/common/interfaces';
+import {
   CreateProductRequest,
   CreateProductResponse,
   PaginateProductsRequest,
@@ -20,21 +25,20 @@ import {
   ProductDetailsRequest,
   ProductDetailsResponse,
 } from './dto';
-import { ProductService } from './products.interface';
 
 @ApiBearerAuth()
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController implements OnModuleInit {
-  private productService: ProductService;
+  private productService: IProductService;
 
   constructor(
-    @Inject('PRODUCTS_PACKAGE') private readonly client: ClientGrpc,
+    @Inject(PRODUCT_PACKAGE_NAME) private readonly client: ClientGrpc,
   ) {}
 
   onModuleInit() {
     this.productService =
-      this.client.getService<ProductService>('ProductService');
+      this.client.getService<IProductService>(PRODUCT_SERVICE_NAME);
   }
 
   @Get()

@@ -12,23 +12,27 @@ import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import {
+  IRoleService,
+  ROLE_PACKAGE_NAME,
+  ROLE_SERVICE_NAME,
+} from '@app/common/interfaces';
+import {
   CreateRoleRequest,
   CreateRoleResponse,
   RoleDetailsRequest,
   RoleDetailsResponse,
 } from './dto';
-import { RoleService } from './roles.interface';
 
 @ApiBearerAuth()
 @ApiTags('Roles')
 @Controller('roles')
 export class RolesController implements OnModuleInit {
-  private roleService: RoleService;
+  private roleService: IRoleService;
 
-  constructor(@Inject('AUTH_PACKAGE') private readonly client: ClientGrpc) {}
+  constructor(@Inject(ROLE_PACKAGE_NAME) private readonly client: ClientGrpc) {}
 
   onModuleInit() {
-    this.roleService = this.client.getService<RoleService>('RoleService');
+    this.roleService = this.client.getService<IRoleService>(ROLE_SERVICE_NAME);
   }
 
   @Post()

@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsString } from 'class-validator';
+import { ICreateRoleRequest } from '@app/common/interfaces';
 
-export class CreateRoleRequest {
+export class CreateRoleRequest implements ICreateRoleRequest {
   @ApiProperty()
   @IsString()
   name: string;

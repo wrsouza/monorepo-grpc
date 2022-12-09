@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsInt, IsNumber, IsString } from 'class-validator';
+import { ICreateProductRequest } from '@app/common/interfaces';
 
-export class CreateProductRequest {
+export class CreateProductRequest implements ICreateProductRequest {
   @ApiProperty()
   @IsString()
   name: string;

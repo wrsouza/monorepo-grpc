@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IUserDetailsResponse } from '@app/common/interfaces';
 
-export class UserDetailsResponse {
+export class UserDetailsResponse implements IUserDetailsResponse {
   @ApiProperty()
   id: string;
 

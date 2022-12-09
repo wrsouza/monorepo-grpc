@@ -1,15 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  IPaginateProductItemResponse,
+  IPaginateProductsResponse,
+} from '@app/common/interfaces';
 
-class ProductList {
+class PaginateProductItemResponse implements IPaginateProductItemResponse {
+  @ApiProperty()
   id: string;
+
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   sku: string;
+
+  @ApiProperty()
   price: number;
 }
 
-export class PaginateProductsResponse {
+export class PaginateProductsResponse implements IPaginateProductsResponse {
   @ApiProperty()
-  data: ProductList[];
+  data: PaginateProductItemResponse[];
 
   @ApiProperty()
   page: number;

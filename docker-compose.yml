@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: ./apps/orders/Dockerfile
       target: development
+    container_name: monorepo_orders
     command: npm run start:dev orders
     ports:
       - '50054:50054'
@@ -23,6 +24,7 @@ services:
       context: .
       dockerfile: ./apps/products/Dockerfile
       target: development
+    container_name: monorepo_products
     command: npm run start:dev products
     ports:
       - '50053:50053'
@@ -40,6 +42,7 @@ services:
       context: .
       dockerfile: ./apps/customers/Dockerfile
       target: development
+    container_name: monorepo_customers
     command: npm run start:dev customers
     ports:
       - '50052:50052'
@@ -57,6 +60,7 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
       target: development
+    container_name: monorepo_auth
     command: npm run start:dev auth
     ports:
       - '50051:50051'
@@ -73,6 +77,7 @@ services:
       context: .
       dockerfile: ./apps/gateway/Dockerfile
       target: development
+    container_name: monorepo_gateway
     command: npm run start:dev gateway
     ports:
       - '3000:3000'
@@ -87,3 +92,19 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+
+  postgres:
+    image: postgres:latest
+    container_name: monorepo_postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=monorepo
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+
+volumes:
+  postgres_data:
+    driver: local

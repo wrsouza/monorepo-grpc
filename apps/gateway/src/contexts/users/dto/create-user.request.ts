@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsBoolean, IsString } from 'class-validator';
+import { ICreateUserRequest } from '@app/common/interfaces';
 
-export class CreateUserRequest {
+export class CreateUserRequest implements ICreateUserRequest {
   @ApiProperty()
   @IsString()
   name: string;

@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IPaginateProductsRequest } from '@app/common/interfaces';
 
-export class PaginateProductsRequest {
+export class PaginateProductsRequest implements IPaginateProductsRequest {
   @ApiProperty({
     required: false,
     default: 1,

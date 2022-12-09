@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IRoleDetailsResponse } from '@app/common/interfaces';
 
-export class RoleDetailsResponse {
+export class RoleDetailsResponse implements IRoleDetailsResponse {
   @ApiProperty()
   id: string;
 
@@ -11,7 +12,7 @@ export class RoleDetailsResponse {
   description: string;
 
   @ApiProperty()
-  createdAt: Date;
+  createdAt: string;
 
   @ApiProperty()
   permissions: string[];

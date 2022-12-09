@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IPermissionDetailsResponse } from '@app/common/interfaces';
 
-export class PermissionDetailsResponse {
+export class PermissionDetailsResponse implements IPermissionDetailsResponse {
   @ApiProperty()
   id: string;
 

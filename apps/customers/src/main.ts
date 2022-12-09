@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { grpcCustomersClient } from '@app/common/transports';
-import { AppModule } from './app.module';
+import { CustomersModule } from './customers.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
+    CustomersModule,
     grpcCustomersClient,
   );
   await app.listen();

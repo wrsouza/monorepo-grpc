@@ -11,27 +11,32 @@ import {
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
-import { CustomerService } from './customers.interface';
+import {
+  CUSTOMER_PACKAGE_NAME,
+  CUSTOMER_SERVICE_NAME,
+  ICustomerService,
+} from '@app/common/interfaces';
 import {
   CreateCustomerRequest,
   CreateCustomerResponse,
   CustomerDetailsRequest,
+  CustomerDetailsResponse,
 } from './dto';
-import { CustomerDetailsResponse } from './dto/customer-details.response';
 
 @ApiBearerAuth()
 @ApiTags('Customers')
 @Controller('customers')
 export class CustomersController implements OnModuleInit {
-  private customersService: CustomerService;
+  private customersService: ICustomerService;
 
   constructor(
-    @Inject('CUSTOMERS_PACKAGE') private readonly client: ClientGrpc,
+    @Inject(CUSTOMER_PACKAGE_NAME) private readonly client: ClientGrpc,
   ) {}
 
   onModuleInit() {
-    this.customersService =
-      this.client.getService<CustomerService>('CustomerService');
+    this.customersService = this.client.getService<ICustomerService>(
+      CUSTOMER_SERVICE_NAME,
+    );
   }
 
   @Post()

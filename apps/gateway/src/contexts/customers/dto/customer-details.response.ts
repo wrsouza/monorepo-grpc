@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import {
+  ICustomerAddressDetailsResponse,
+  ICustomerDetailsResponse,
+} from '@app/common/interfaces';
 
-class AddressDetailsReponse {
+class CustomerAddressDetailsResponse
+  implements ICustomerAddressDetailsResponse
+{
   @ApiProperty()
   postalCode: string;
 
@@ -14,7 +20,7 @@ class AddressDetailsReponse {
   state: string;
 }
 
-export class CustomerDetailsResponse {
+export class CustomerDetailsResponse implements ICustomerDetailsResponse {
   @ApiProperty()
   id: string;
 
@@ -28,7 +34,7 @@ export class CustomerDetailsResponse {
   createdAt: Date;
 
   @ApiProperty({
-    type: AddressDetailsReponse,
+    type: CustomerAddressDetailsResponse,
   })
-  address: AddressDetailsReponse;
+  address: CustomerAddressDetailsResponse;
 }

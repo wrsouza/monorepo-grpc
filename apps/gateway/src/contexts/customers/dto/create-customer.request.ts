@@ -1,8 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
 import { IsString, ValidateNested } from 'class-validator';
+import {
+  ICreateCustomerAddressRequest,
+  ICreateCustomerRequest,
+} from '@app/common/interfaces';
 
-class CreateCustomerAddressRequest {
+class CreateCustomerAddressRequest implements ICreateCustomerAddressRequest {
   @ApiProperty({
     minLength: 8,
     maxLength: 8,
@@ -35,7 +39,7 @@ class CreateCustomerAddressRequest {
   state: string;
 }
 
-export class CreateCustomerRequest {
+export class CreateCustomerRequest implements ICreateCustomerRequest {
   @ApiProperty({
     maxLength: 100,
     example: 'John Doe',
