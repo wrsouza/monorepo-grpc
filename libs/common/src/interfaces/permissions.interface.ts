@@ -18,6 +18,8 @@ export interface ICreatePermissionRequest {
 }
 
 export interface ICreatePermissionResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -26,6 +28,8 @@ export interface IPermissionDetailsRequest {
 }
 
 export interface IPermissionDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   description: string;

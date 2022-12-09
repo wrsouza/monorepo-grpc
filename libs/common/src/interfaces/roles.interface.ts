@@ -15,6 +15,8 @@ export interface ICreateRoleRequest {
 }
 
 export interface ICreateRoleResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -23,6 +25,8 @@ export interface IRoleDetailsRequest {
 }
 
 export interface IRoleDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   description: string;

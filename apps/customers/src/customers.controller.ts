@@ -1,7 +1,7 @@
 import { Controller, Logger } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GrpcMethod } from '@nestjs/microservices';
-import { ApiTags } from '@nestjs/swagger';
+import { CUSTOMER_SERVICE_NAME } from '@app/common/interfaces';
 import {
   CreateCustomerCommand,
   CreateCustomerRequest,
@@ -13,15 +13,14 @@ import {
   CustomerDetailsResponse,
 } from './application/queries';
 
-@ApiTags('Customers')
-@Controller('customers')
+@Controller()
 export class CustomersController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
 
-  @GrpcMethod('CustomerService')
+  @GrpcMethod(CUSTOMER_SERVICE_NAME)
   async createCustomer(
     createCustomerRequest: CreateCustomerRequest,
   ): Promise<CreateCustomerResponse> {
@@ -32,7 +31,7 @@ export class CustomersController {
     return this.commandBus.execute(command);
   }
 
-  @GrpcMethod('CustomerService')
+  @GrpcMethod(CUSTOMER_SERVICE_NAME)
   async customerDetails({
     id,
   }: CustomerDetailsRequest): Promise<CustomerDetailsResponse> {

@@ -17,6 +17,8 @@ export interface ICreateUserRequest {
 }
 
 export interface ICreateUserResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -25,6 +27,8 @@ export interface IUserDetailsRequest {
 }
 
 export interface IUserDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   email: string;

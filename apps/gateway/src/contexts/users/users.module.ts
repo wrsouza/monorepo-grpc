@@ -15,4 +15,4 @@ import { UsersController } from './users.controller';
   ],
   controllers: [UsersController],
 })
-export class ProductsModule {}
+export class UsersModule {}

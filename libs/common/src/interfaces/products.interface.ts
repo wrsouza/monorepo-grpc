@@ -22,6 +22,8 @@ export interface IPaginateProductsRequest {
 }
 
 export interface IPaginateProductsResponse {
+  status?: number;
+  error?: string[];
   data: IPaginateProductItemResponse[];
   page: number;
   perPage: number;
@@ -46,6 +48,8 @@ export interface ICreateProductRequest {
 }
 
 export interface ICreateProductResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -54,6 +58,8 @@ export interface IProductDetailsRequest {
 }
 
 export interface IProductDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   sku: string;

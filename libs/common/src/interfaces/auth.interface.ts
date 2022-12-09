@@ -14,8 +14,8 @@ export interface ILoginRequest {
 }
 
 export interface ILoginResponse {
-  status: number;
-  error: string[];
+  status?: number;
+  error?: string[];
   token: string;
 }
 
@@ -24,7 +24,7 @@ export interface IValidateRequest {
 }
 
 export interface IValidateResponse {
-  status: number;
-  error: string[];
-  id: number;
+  status?: number;
+  error?: string[];
+  id: string;
 }

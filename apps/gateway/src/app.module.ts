@@ -1,9 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { AuthModule } from '../../auth/src/auth.module';
 import { CategoriesModule } from './contexts/categories/categories.module';
 import { CustomersModule } from './contexts/customers/customers.module';
+import { OrdersModule } from './contexts/orders/orders.module';
+import { PermissionsModule } from './contexts/permissions/permissions.module';
 import { ProductsModule } from './contexts/products/products.module';
+import { RolesModule } from './contexts/roles/roles.module';
+import { UsersModule } from './contexts/users/users.module';
 
 @Module({
   imports: [
@@ -14,9 +19,14 @@ import { ProductsModule } from './contexts/products/products.module';
       }),
       envFilePath: './apps/gateway/.env',
     }),
-    CustomersModule,
-    ProductsModule,
+    AuthModule,
     CategoriesModule,
+    CustomersModule,
+    OrdersModule,
+    PermissionsModule,
+    ProductsModule,
+    RolesModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

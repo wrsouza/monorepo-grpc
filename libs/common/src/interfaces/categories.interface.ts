@@ -18,6 +18,8 @@ export interface ICreateCategoryRequest {
 }
 
 export interface ICreateCategoryResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -26,6 +28,8 @@ export interface ICategoryDetailsRequest {
 }
 
 export interface ICategoryDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   slug: string;

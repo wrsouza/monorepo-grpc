@@ -27,6 +27,8 @@ export interface ICreateCustomerAddressRequest {
 }
 
 export interface ICreateCustomerResponse {
+  status?: number;
+  error?: string[];
   id: string;
 }
 
@@ -35,6 +37,8 @@ export interface ICustomerDetailsRequest {
 }
 
 export interface ICustomerDetailsResponse {
+  status?: number;
+  error?: string[];
   id: string;
   name: string;
   documentNumber: string;

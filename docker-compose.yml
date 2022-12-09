@@ -18,6 +18,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
 
   products:
     build:
@@ -36,6 +37,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
 
   customers:
     build:
@@ -54,6 +56,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
 
   auth:
     build:
@@ -71,7 +74,8 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-      
+    restart: always
+
   gateway:
     build:
       context: .
@@ -92,6 +96,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    restart: always
 
   postgres:
     image: postgres:latest
@@ -104,6 +109,7 @@ services:
       - POSTGRES_DB=monorepo
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
+    restart: always
 
 volumes:
   postgres_data:
