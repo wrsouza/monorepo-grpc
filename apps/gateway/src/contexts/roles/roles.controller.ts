@@ -7,6 +7,8 @@ import {
   OnModuleInit,
   Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -22,6 +24,7 @@ import {
   RoleDetailsRequest,
   RoleDetailsResponse,
 } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('Roles')
@@ -36,18 +39,22 @@ export class RolesController implements OnModuleInit {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createRole(
+    @Request() { metadata },
     @Body() createRoleRequest: CreateRoleRequest,
   ): Observable<CreateRoleResponse> {
     Logger.log(`POST createRole: ${JSON.stringify(createRoleRequest)}`);
-    return this.roleService.createRole(createRoleRequest);
+    return this.roleService.createRole(createRoleRequest, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   roleDetails(
+    @Request() { metadata },
     @Param() roleDetailsRequest: RoleDetailsRequest,
   ): Observable<RoleDetailsResponse> {
     Logger.log(`GET RoleDetails: ${JSON.stringify(roleDetailsRequest)}`);
-    return this.roleService.roleDetails(roleDetailsRequest);
+    return this.roleService.roleDetails(roleDetailsRequest, metadata);
   }
 }

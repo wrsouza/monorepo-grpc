@@ -1,11 +1,18 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const ROLE_PACKAGE_NAME = 'roles';
 export const ROLE_SERVICE_NAME = 'RoleService';
 
 export interface IRoleService {
-  createRole(request: ICreateRoleRequest): Observable<ICreateRoleResponse>;
-  roleDetails(request: IRoleDetailsRequest): Observable<IRoleDetailsResponse>;
+  createRole(
+    request: ICreateRoleRequest,
+    metadata?: Metadata,
+  ): Observable<ICreateRoleResponse>;
+  roleDetails(
+    request: IRoleDetailsRequest,
+    metadata?: Metadata,
+  ): Observable<IRoleDetailsResponse>;
 }
 
 export interface ICreateRoleRequest {

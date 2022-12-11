@@ -7,7 +7,7 @@ import {
   PERMISSION_SERVICE_NAME,
 } from '@app/common/interfaces';
 import { Roles } from '@app/common/decorators';
-import { GrpcAuthGuard } from '@app/common/guards/grpc.guard';
+import { GrpcAuthGuard } from '@app/common/guards';
 import {
   CreatePermissionCommand,
   CreatePermissionResponse,
