@@ -1,27 +1,20 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  OnModuleInit,
-  Inject,
-} from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
-import {
-  IAuthService,
-  AUTH_PACKAGE_NAME,
-  AUTH_SERVICE_NAME,
-} from '../interfaces/auth.interface';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
+import { verify } from 'jsonwebtoken';
+import { ROLES_KEY } from '../decorators';
+
+interface InternalPayload {
+  sub: string;
+  roles: string[];
+}
 
 @Injectable()
-export class GrpcAuthGuard implements OnModuleInit, CanActivate {
-  private authService: IAuthService;
-
-  constructor(@Inject(AUTH_PACKAGE_NAME) private readonly client: ClientGrpc) {}
-
-  onModuleInit() {
-    this.authService = this.client.getService<IAuthService>(AUTH_SERVICE_NAME);
-  }
+export class GrpcAuthGuard implements CanActivate {
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly configService: ConfigService,
+  ) {}
 
   getRequest(context: ExecutionContext) {
     return context.switchToRpc().getContext();
@@ -29,33 +22,47 @@ export class GrpcAuthGuard implements OnModuleInit, CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = this.getRequest(context);
-
-    const type = context.getType();
     const prefix = 'Bearer ';
 
-    let header: any;
-    if (type === 'rpc') {
-      const metadata = context.getArgByIndex(1);
-      if (!metadata) {
-        return false;
-      }
-      header = metadata.get('Authorization')[0];
-    }
-
-    if (!header || !header.includes(prefix)) {
+    const metadata = context.getArgByIndex(1);
+    if (!metadata) {
       return false;
     }
 
-    const token = header.slice(header.indexOf(' ') + 1);
-
-    const result = await firstValueFrom(this.authService.validate(token));
-
-    if (result.status !== 200) {
+    const accessToken = metadata.get('Authorization')[0];
+    if (!accessToken || !accessToken.includes(prefix)) {
       return false;
     }
 
-    request.userId = result.id;
+    const payload = this.verifyInternalToken(accessToken);
+    if (!payload.sub || !payload.roles) {
+      return false;
+    }
 
-    return true;
+    request.userId = payload.sub;
+
+    const requiredRoles = this.reflector.get<string[]>(
+      ROLES_KEY,
+      context.getHandler(),
+    );
+    if (!requiredRoles) {
+      return true;
+    }
+
+    const hasRole: boolean = requiredRoles.some((role) =>
+      payload.roles?.includes(role),
+    );
+    return hasRole;
+  }
+
+  verifyInternalToken(accessToken: string): InternalPayload {
+    try {
+      return verify(
+        accessToken.split(' ')[1],
+        this.configService.get<string>('JWT_INTERNAL_SECRET'),
+      ) as InternalPayload;
+    } catch (err) {
+      return { sub: null, roles: null };
+    }
   }
 }

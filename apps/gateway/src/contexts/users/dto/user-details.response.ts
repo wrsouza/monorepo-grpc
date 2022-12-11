@@ -18,5 +18,5 @@ export class UserDetailsResponse implements IUserDetailsResponse {
   roles: string[];
 
   @ApiProperty()
-  createdAt: Date;
+  createdAt: string;
 }

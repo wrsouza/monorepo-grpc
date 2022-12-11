@@ -4,8 +4,8 @@ export const USER_PACKAGE_NAME = 'users';
 export const USER_SERVICE_NAME = 'UserService';
 
 export interface IUserService {
-  createUser(data: ICreateUserRequest): Observable<ICreateUserResponse>;
-  userDetails(data: IUserDetailsRequest): Observable<IUserDetailsResponse>;
+  createUser(request: ICreateUserRequest): Observable<ICreateUserResponse>;
+  userDetails(request: IUserDetailsRequest): Observable<IUserDetailsResponse>;
 }
 
 export interface ICreateUserRequest {
@@ -33,6 +33,6 @@ export interface IUserDetailsResponse {
   name: string;
   email: string;
   isAdmin: boolean;
-  createdAt: Date;
+  createdAt: string;
   roles: string[];
 }

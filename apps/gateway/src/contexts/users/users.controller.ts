@@ -37,17 +37,17 @@ export class UsersController implements OnModuleInit {
 
   @Post()
   createUser(
-    @Body() createUserRequest: CreateUserRequest,
+    @Body() request: CreateUserRequest,
   ): Observable<CreateUserResponse> {
-    Logger.log(`POST createUser: ${JSON.stringify(createUserRequest)}`);
-    return this.userService.createUser(createUserRequest);
+    Logger.log(`POST createUser: ${JSON.stringify(request)}`);
+    return this.userService.createUser(request);
   }
 
   @Get(':id')
   userDetails(
-    @Param() userDetailsRequest: UserDetailsRequest,
+    @Param() request: UserDetailsRequest,
   ): Observable<UserDetailsResponse> {
-    Logger.log(`GET userDetails: ${JSON.stringify(userDetailsRequest)}`);
-    return this.userService.userDetails(userDetailsRequest);
+    Logger.log(`GET userDetails: ${JSON.stringify(request)}`);
+    return this.userService.userDetails(request);
   }
 }

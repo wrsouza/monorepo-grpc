@@ -12,5 +12,5 @@ export class PermissionDetailsResponse implements IPermissionDetailsResponse {
   description: string;
 
   @ApiProperty()
-  createdAt: Date;
+  createdAt: string;
 }

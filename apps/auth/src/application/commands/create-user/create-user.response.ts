@@ -1,8 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ICreateUserResponse } from '@app/common/interfaces';
 import { User } from '../../../domain-models/user';
 
-export class CreateUserResponse {
-  @ApiProperty()
+export class CreateUserResponse implements ICreateUserResponse {
   id: string;
 
   constructor(user: User) {

@@ -7,6 +7,8 @@ import {
   OnModuleInit,
   Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -22,6 +24,7 @@ import {
   PermissionDetailsRequest,
   PermissionDetailsResponse,
 } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('Permissions')
@@ -40,22 +43,22 @@ export class PermissionsController implements OnModuleInit {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createPermission(
-    @Body() createPermissionRequest: CreatePermissionRequest,
+    @Request() { metadata },
+    @Body() request: CreatePermissionRequest,
   ): Observable<CreatePermissionResponse> {
-    Logger.log(
-      `POST createPermission: ${JSON.stringify(createPermissionRequest)}`,
-    );
-    return this.permissionService.createPermission(createPermissionRequest);
+    Logger.log(`POST createPermission: ${JSON.stringify(request)}`);
+    return this.permissionService.createPermission(request, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   permissionDetails(
-    @Param() permissionDetailsRequest: PermissionDetailsRequest,
+    @Request() { metadata },
+    @Param() request: PermissionDetailsRequest,
   ): Observable<PermissionDetailsResponse> {
-    Logger.log(
-      `GET permissionDetails: ${JSON.stringify(permissionDetailsRequest)}`,
-    );
-    return this.permissionService.permissionDetails(permissionDetailsRequest);
+    Logger.log(`GET permissionDetails: ${JSON.stringify(request)}`);
+    return this.permissionService.permissionDetails(request, metadata);
   }
 }

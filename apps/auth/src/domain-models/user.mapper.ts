@@ -2,8 +2,13 @@ import { IMapper } from '@app/common/domain-models';
 import { IUser } from '@app/common/database/schemas';
 import { User } from './user';
 import { UserId } from './user-id';
+import { RoleMapper } from './role.mapper';
 
 export class UserMapper implements IMapper<User, IUser> {
+  private readonly roleMapper: RoleMapper;
+  constructor() {
+    this.roleMapper = new RoleMapper();
+  }
   toPersistence(entity: User): IUser {
     return {
       id: entity.id.value,
@@ -11,6 +16,11 @@ export class UserMapper implements IMapper<User, IUser> {
       email: entity.email,
       password: entity.password,
       isAdmin: entity.isAdmin,
+      roles: entity.roles.map((role) => ({
+        id: role.id.value,
+        name: role.name,
+        description: role.description,
+      })),
     };
   }
 
@@ -24,6 +34,7 @@ export class UserMapper implements IMapper<User, IUser> {
       isAdmin: record.isAdmin,
       createdAt: record.createdAt,
       updatedAt: record.updatedAt,
+      roles: record.roles.map((role) => this.roleMapper.toDomain(role)),
     });
   }
 }

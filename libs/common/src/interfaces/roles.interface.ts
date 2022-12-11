@@ -4,8 +4,8 @@ export const ROLE_PACKAGE_NAME = 'roles';
 export const ROLE_SERVICE_NAME = 'RoleService';
 
 export interface IRoleService {
-  createRole(data: ICreateRoleRequest): Observable<ICreateRoleResponse>;
-  roleDetails(data: IRoleDetailsRequest): Observable<IRoleDetailsResponse>;
+  createRole(request: ICreateRoleRequest): Observable<ICreateRoleResponse>;
+  roleDetails(request: IRoleDetailsRequest): Observable<IRoleDetailsResponse>;
 }
 
 export interface ICreateRoleRequest {

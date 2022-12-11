@@ -1,23 +1,20 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../../../domain-models/user';
+import { IUserDetailsResponse } from '@app/common/interfaces';
+import { User } from '../../../domain-models';
 
-export class UserDetailsResponse {
-  @ApiProperty()
+export class UserDetailsResponse implements IUserDetailsResponse {
   id: string;
-
-  @ApiProperty()
   name: string;
-
-  @ApiProperty()
   email: string;
-
-  @ApiProperty()
-  createdAt: Date;
+  isAdmin: boolean;
+  createdAt: string;
+  roles: string[];
 
   constructor(user: User) {
     this.id = user.id.value;
     this.name = user.name;
     this.email = user.email;
-    this.createdAt = user.createdAt;
+    this.isAdmin = user.isAdmin;
+    this.createdAt = user.createdAt.toISOString();
+    this.roles = user.roles.map((role) => role.id.value);
   }
 }

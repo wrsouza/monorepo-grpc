@@ -1,6 +1,7 @@
 import { Entity } from '@app/common/domain-models/entity';
 import { IUser } from '@app/common/database/schemas/user.schema';
 import { UserId } from './user-id';
+import { Role } from './role';
 
 export interface IUserValues {
   id?: UserId;
@@ -10,6 +11,7 @@ export interface IUserValues {
   isAdmin: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  roles: Role[];
 }
 
 export class User extends Entity<UserId> {
@@ -17,6 +19,7 @@ export class User extends Entity<UserId> {
   private _email: string;
   private _password: string;
   private _isAdmin: boolean;
+  private _roles: Role[];
 
   constructor(user: IUserValues) {
     super();
@@ -27,6 +30,7 @@ export class User extends Entity<UserId> {
     this._isAdmin = user.isAdmin;
     this._createdAt = user.createdAt;
     this._updatedAt = user.updatedAt;
+    this._roles = user.roles;
   }
 
   get name(): string {
@@ -43,6 +47,10 @@ export class User extends Entity<UserId> {
 
   get isAdmin(): boolean {
     return this._isAdmin;
+  }
+
+  get roles(): Role[] {
+    return this._roles;
   }
 
   update(user: Partial<IUser>) {

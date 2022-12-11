@@ -5,13 +5,13 @@ export const PRODUCT_SERVICE_NAME = 'ProductService';
 
 export interface IProductService {
   paginateProducts(
-    data: IPaginateProductsRequest,
+    request: IPaginateProductsRequest,
   ): Observable<IPaginateProductsResponse>;
   createProduct(
-    data: ICreateProductRequest,
+    request: ICreateProductRequest,
   ): Observable<ICreateProductResponse>;
   productDetails(
-    data: IProductDetailsRequest,
+    request: IProductDetailsRequest,
   ): Observable<IProductDetailsResponse>;
 }
 

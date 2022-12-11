@@ -5,11 +5,11 @@ export const CUSTOMER_SERVICE_NAME = 'CustomerService';
 
 export interface ICustomerService {
   createCustomer(
-    data: ICreateCustomerRequest,
+    request: ICreateCustomerRequest,
   ): Observable<ICreateCustomerResponse>;
 
   customerDetails(
-    data: ICustomerDetailsRequest,
+    request: ICustomerDetailsRequest,
   ): Observable<ICustomerDetailsResponse>;
 }
 

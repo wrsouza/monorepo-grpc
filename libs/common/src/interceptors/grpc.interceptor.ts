@@ -10,11 +10,12 @@ import {
   UnauthorizedException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class GrpcInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    console.log('intercept');
     return next.handle().pipe(
       map((value) => {
         if (value.status === HttpStatus.BAD_REQUEST)
@@ -27,7 +28,14 @@ export class GrpcInterceptor implements NestInterceptor {
           throw new UnauthorizedException(value.error);
         if (value.status === HttpStatus.INTERNAL_SERVER_ERROR)
           throw new InternalServerErrorException(value.error);
+        console.log('value', value);
         return value;
+      }),
+      catchError((err) => {
+        if (err.message.toUpperCase().indexOf('FORBIDDEN') !== -1) {
+          return throwError(() => new ForbiddenException('Forbidden resource'));
+        }
+        return throwError(() => new InternalServerErrorException(err.message));
       }),
     );
   }

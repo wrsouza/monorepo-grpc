@@ -1,17 +1,17 @@
 import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
-import { BadRequestException } from '@nestjs/common';
-import { UserRepository } from '../../../infrastructure/user.repository';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { hashSync } from 'bcrypt';
 import { CreateUserCommand } from './create-user.command';
 import { CreateUserResponse } from './create-user.response';
-import { User } from '../../../domain-models/user';
-import { UserId } from '../../../domain-models/user-id';
-import { UserCreatedLogEvent } from '../../events/user-created-log/user-created-log.event';
-import { hashSync } from 'bcrypt';
+import { UserCreatedLogEvent } from '../../events';
+import { User, UserId, Role, RoleId } from '../../../domain-models';
+import { UserRepository, RoleRepository } from '../../../infrastructure';
 
 @CommandHandler(CreateUserCommand)
 export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(
-    private readonly repository: UserRepository,
+    private readonly roleRepository: RoleRepository,
+    private readonly userRepository: UserRepository,
     private readonly eventBus: EventBus,
   ) {}
 
@@ -21,13 +21,14 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     const { email } = createUser;
     await this.userExists(email);
     const encryptedPassword = this.encryptPassword(createUser.password);
+    const roles = await this.getRoles(createUser.roles);
     const user = new User({
       ...createUser,
       id: new UserId(),
       password: encryptedPassword,
-      isAdmin: false,
+      roles,
     });
-    await this.repository.saveUser(user);
+    await this.userRepository.saveUser(user);
 
     const event = new UserCreatedLogEvent(user);
     this.eventBus.publish(event);
@@ -40,9 +41,26 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   }
 
   async userExists(email: string): Promise<void> {
-    const user = await this.repository.findUser({ email });
+    const user = await this.userRepository.findUser({ email });
     if (user) {
       throw new BadRequestException('user already exists.');
     }
+  }
+
+  async getRoles(roleIds: string[]): Promise<Role[]> {
+    const roles: Role[] = [];
+    for (const roleId of roleIds) {
+      const role = await this.findRole(roleId);
+      roles.push(role);
+    }
+    return roles;
+  }
+
+  async findRole(id: string): Promise<Role> {
+    const role = await this.roleRepository.findRole({ id });
+    if (!role) {
+      throw new NotFoundException(`role ${id} not found`);
+    }
+    return role;
   }
 }

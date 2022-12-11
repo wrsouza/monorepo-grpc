@@ -5,10 +5,10 @@ export const CATEGORY_SERVICE_NAME = 'CategoryService';
 
 export interface ICategoryService {
   createCategory(
-    data: ICreateCategoryRequest,
+    request: ICreateCategoryRequest,
   ): Observable<ICreateCategoryResponse>;
   categoryDetails(
-    data: ICategoryDetailsRequest,
+    request: ICategoryDetailsRequest,
   ): Observable<ICategoryDetailsResponse>;
 }
 

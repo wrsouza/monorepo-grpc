@@ -4,21 +4,20 @@ import {
   Get,
   Inject,
   OnModuleInit,
-  Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import {
   AUTH_PACKAGE_NAME,
   AUTH_SERVICE_NAME,
   IAuthService,
-} from '../../../../../libs/common/src/interfaces';
-import { LoginRequest } from './dto/login.request';
-import { LoginResponse } from './dto/login.response';
-import { ValidateRequest } from './dto/validate.request';
-import { ValidateResponse } from './dto/validate.response';
+} from '@app/common/interfaces';
+import { UserLoginRequest, UserLoginResponse } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -32,12 +31,15 @@ export class AuthController implements OnModuleInit {
   }
 
   @Post('login')
-  login(@Body() request: LoginRequest): Observable<LoginResponse> {
-    return this.authService.login(request);
+  login(@Body() request: UserLoginRequest): Observable<UserLoginResponse> {
+    return this.authService.userLogin(request);
   }
 
-  @Get('validate/:token')
-  validate(@Param() request: ValidateRequest): Observable<ValidateResponse> {
-    return this.authService.validate(request);
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('validate')
+  validate(@Request() req) {
+    const { roles, ...result } = req.user;
+    return result;
   }
 }

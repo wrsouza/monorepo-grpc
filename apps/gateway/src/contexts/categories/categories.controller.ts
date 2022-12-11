@@ -42,19 +42,17 @@ export class CategoriesController implements OnModuleInit {
 
   @Post()
   createCategory(
-    @Body() createCategoryRequest: CreateCategoryRequest,
+    @Body() request: CreateCategoryRequest,
   ): Observable<CreateCategoryResponse> {
-    Logger.log(`POST createCategory: ${JSON.stringify(createCategoryRequest)}`);
-    return this.categoryService.createCategory(createCategoryRequest);
+    Logger.log(`POST createCategory: ${JSON.stringify(request)}`);
+    return this.categoryService.createCategory(request);
   }
 
   @Get(':id')
   categoryDetails(
-    @Param() categoryDetailsRequest: CategoryDetailsRequest,
+    @Param() request: CategoryDetailsRequest,
   ): Observable<CategoryDetailsResponse> {
-    Logger.log(
-      `GET categoryDetails: ${JSON.stringify(categoryDetailsRequest)}`,
-    );
-    return this.categoryService.categoryDetails(categoryDetailsRequest);
+    Logger.log(`GET categoryDetails: ${JSON.stringify(request)}`);
+    return this.categoryService.categoryDetails(request);
   }
 }

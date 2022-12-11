@@ -53,14 +53,15 @@ export const UserSchema = new EntitySchema<IUser>({
       target: 'roles',
       type: 'many-to-many',
       cascade: ['insert', 'update'],
+      eager: true,
       joinTable: {
         name: 'user_role',
         joinColumn: {
-          name: 'role_id',
+          name: 'user_id',
           referencedColumnName: 'id',
         },
         inverseJoinColumn: {
-          name: 'user_id',
+          name: 'role_id',
           referencedColumnName: 'id',
         },
       },

@@ -45,11 +45,11 @@ export const CategorySchema = new EntitySchema<ICategory>({
       joinTable: {
         name: 'category_product',
         joinColumn: {
-          name: 'product_id',
+          name: 'category_id',
           referencedColumnName: 'id',
         },
         inverseJoinColumn: {
-          name: 'category_id',
+          name: 'product_id',
           referencedColumnName: 'id',
         },
       },

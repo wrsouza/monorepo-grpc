@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
-import { AuthModule } from '../../auth/src/auth.module';
+import { AuthModule } from './contexts/auth/auth.module';
 import { CategoriesModule } from './contexts/categories/categories.module';
 import { CustomersModule } from './contexts/customers/customers.module';
 import { OrdersModule } from './contexts/orders/orders.module';
@@ -16,6 +16,8 @@ import { UsersModule } from './contexts/users/users.module';
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
+        JWT_EXTERNAL_SECRET: Joi.string().required(),
+        JWT_INTERNAL_SECRET: Joi.string().required(),
       }),
       envFilePath: './apps/gateway/.env',
     }),

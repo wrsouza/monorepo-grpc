@@ -1,8 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { IUser, UserSchema } from '@app/common/database/schemas';
-import { User } from '../domain-models/user';
-import { UserMapper } from '../domain-models/user.mapper';
+import { User, UserMapper } from '../domain-models';
 
 export class UserRepository {
   private readonly mapper: UserMapper;
@@ -14,8 +13,8 @@ export class UserRepository {
     this.mapper = new UserMapper();
   }
 
-  async saveUser(user: User): Promise<void> {
-    const record = this.mapper.toPersistence(user);
+  async saveUser(entity: User): Promise<void> {
+    const record = this.mapper.toPersistence(entity);
     await this.repository.save(record);
   }
 

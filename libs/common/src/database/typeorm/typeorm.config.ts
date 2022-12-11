@@ -8,6 +8,13 @@ import {
   CustomerSchema,
   ProductSchema,
   CategorySchema,
+  UserSchema,
+  RoleSchema,
+  PermissionSchema,
+  OrderSchema,
+  OrderAddressSchema,
+  OrderCustomerSchema,
+  OrderItemSchema,
 } from '../schemas';
 
 export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
@@ -15,7 +22,19 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
     ({
       type: 'postgres',
       url: configService.get<string>('CONNECTION_STRING'),
-      entities: [CustomerSchema, AddressSchema, CategorySchema, ProductSchema],
+      entities: [
+        CustomerSchema,
+        AddressSchema,
+        CategorySchema,
+        ProductSchema,
+        UserSchema,
+        RoleSchema,
+        PermissionSchema,
+        OrderSchema,
+        OrderAddressSchema,
+        OrderCustomerSchema,
+        OrderItemSchema,
+      ],
       synchronize: false,
       logging: true,
       keepConnectionAlive: true,

@@ -2,11 +2,8 @@ import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  IUser,
-  UserSchema,
-} from '../../../../data/database/schemas/user.schema';
-import { UserMapper } from '../../../domain-models/user.mapper';
+import { IUser, UserSchema } from '@app/common/database/schemas';
+import { UserMapper } from '../../../domain-models';
 import { UserDetailsQuery } from './user-details.query';
 import { UserDetailsResponse } from './user-details.response';
 
