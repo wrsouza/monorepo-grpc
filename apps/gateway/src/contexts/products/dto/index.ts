@@ -1,6 +1,3 @@
-export * from './paginate-products.request';
-export * from './paginate-products.response';
-
 export * from './create-product.request';
 export * from './create-product.response';
 
