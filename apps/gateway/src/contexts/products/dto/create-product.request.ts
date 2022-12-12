@@ -39,7 +39,6 @@ export class CreateProductRequest implements ICreateProductRequest {
   stock: number;
 
   @ApiProperty({
-    type: [String],
     example: [],
   })
   @IsArray()

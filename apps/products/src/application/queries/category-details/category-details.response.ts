@@ -12,12 +12,12 @@ export class CategoryDetailsResponse {
   slug: string;
 
   @ApiProperty()
-  createdAt: Date;
+  createdAt: string;
 
   constructor(category: Category) {
     this.id = category.id.value;
     this.name = category.name;
     this.slug = category.slug;
-    this.createdAt = category.createdAt;
+    this.createdAt = category.createdAt.toISOString();
   }
 }

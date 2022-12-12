@@ -20,7 +20,7 @@ message CreateProductRequest {
     string slug = 3;
     float price = 4;
     int32 stock = 5;
-    string categories = 6;
+    repeated string categories = 6;
 }
 
 message CreateProductResponse {
