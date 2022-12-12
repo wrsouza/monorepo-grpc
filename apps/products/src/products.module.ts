@@ -20,6 +20,7 @@ import { CategoriesController } from './categories.controller';
       validationSchema: Joi.object({
         CONNECTION_TYPE: Joi.string().required(),
         CONNECTION_STRING: Joi.string().required(),
+        JWT_INTERNAL_SECRET: Joi.string().required(),
       }),
       envFilePath: './apps/products/.env',
     }),

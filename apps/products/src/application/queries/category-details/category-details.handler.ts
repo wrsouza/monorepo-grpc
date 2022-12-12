@@ -2,10 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  CategorySchema,
-  ICategory,
-} from '../../../../data/database/schemas/category.schema';
+import { CategorySchema, ICategory } from '@app/common/database/schemas';
 import { CategoryMapper } from '../../../domain-models/category.mapper';
 import { CategoryDetailsQuery } from './category-details.query';
 import { CategoryDetailsResponse } from './category-details.response';

@@ -1,12 +1,17 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const AUTH_PACKAGE_NAME = 'auth';
 export const AUTH_SERVICE_NAME = 'AuthService';
 
 export interface IAuthService {
-  userLogin(request: IUserLoginRequest): Observable<IUserLoginResponse>;
+  userLogin(
+    request: IUserLoginRequest,
+    metadata?: Metadata,
+  ): Observable<IUserLoginResponse>;
   userValidate(
     request: IUserValidateRequest,
+    metadata?: Metadata,
   ): Observable<IUserValidateResponse>;
 }
 

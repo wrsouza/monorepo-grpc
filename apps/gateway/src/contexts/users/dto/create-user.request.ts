@@ -3,23 +3,38 @@ import { IsArray, IsBoolean, IsString } from 'class-validator';
 import { ICreateUserRequest } from '@app/common/interfaces';
 
 export class CreateUserRequest implements ICreateUserRequest {
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'John Doe',
+  })
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'john.doe@domain.com',
+  })
   @IsString()
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'password',
+  })
   @IsString()
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Boolean,
+    example: false,
+  })
   @IsBoolean()
   isAdmin: boolean;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [String],
+    example: [],
+  })
   @IsArray()
   roles: string[];
 }

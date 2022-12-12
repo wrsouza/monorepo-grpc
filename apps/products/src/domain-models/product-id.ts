@@ -1,3 +1,3 @@
-import { Identity } from '../../common/domain-models/identity';
+import { Identity } from '@app/common/domain-models';
 
 export class ProductId extends Identity {}

@@ -7,8 +7,10 @@ import {
   OnModuleInit,
   Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   IOrderService,
   ORDER_PACKAGE_NAME,
@@ -20,7 +22,9 @@ import { CreateOrderRequest } from './dto/create-order.request';
 import { CreateOrderResponse } from './dto/create-order.response';
 import { OrderDetailsRequest } from './dto/order-details.request';
 import { OrderDetailsResponse } from './dto/order-details.response';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
+@ApiBearerAuth()
 @ApiTags('Orders')
 @Controller('orders')
 export class OrdersController implements OnModuleInit {
@@ -36,18 +40,22 @@ export class OrdersController implements OnModuleInit {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createProduct(
+    @Request() { metadata },
     @Body() request: CreateOrderRequest,
   ): Observable<CreateOrderResponse> {
     Logger.log(`POST createOrder: ${JSON.stringify(request)}`);
-    return this.orderService.createOrder(request);
+    return this.orderService.createOrder(request, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   productDetails(
+    @Request() { metadata },
     @Param() request: OrderDetailsRequest,
   ): Observable<OrderDetailsResponse> {
     Logger.log(`GET orderDetails: ${JSON.stringify(request)}`);
-    return this.orderService.orderDetails(request);
+    return this.orderService.orderDetails(request, metadata);
   }
 }

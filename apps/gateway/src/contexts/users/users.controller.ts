@@ -7,6 +7,8 @@ import {
   OnModuleInit,
   Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -22,6 +24,7 @@ import {
   UserDetailsRequest,
   UserDetailsResponse,
 } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('Users')
@@ -36,18 +39,22 @@ export class UsersController implements OnModuleInit {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createUser(
+    @Request() { metadata },
     @Body() request: CreateUserRequest,
   ): Observable<CreateUserResponse> {
     Logger.log(`POST createUser: ${JSON.stringify(request)}`);
-    return this.userService.createUser(request);
+    return this.userService.createUser(request, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   userDetails(
+    @Request() { metadata },
     @Param() request: UserDetailsRequest,
   ): Observable<UserDetailsResponse> {
     Logger.log(`GET userDetails: ${JSON.stringify(request)}`);
-    return this.userService.userDetails(request);
+    return this.userService.userDetails(request, metadata);
   }
 }

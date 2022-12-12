@@ -1,3 +1,4 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const CUSTOMER_PACKAGE_NAME = 'customers';
@@ -6,10 +7,12 @@ export const CUSTOMER_SERVICE_NAME = 'CustomerService';
 export interface ICustomerService {
   createCustomer(
     request: ICreateCustomerRequest,
+    metadata?: Metadata,
   ): Observable<ICreateCustomerResponse>;
 
   customerDetails(
     request: ICustomerDetailsRequest,
+    metadata?: Metadata,
   ): Observable<ICustomerDetailsResponse>;
 }
 

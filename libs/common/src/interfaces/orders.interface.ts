@@ -1,3 +1,4 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 import { ShipmentTypeEnum } from '../database/schemas';
 
@@ -5,9 +6,13 @@ export const ORDER_PACKAGE_NAME = 'orders';
 export const ORDER_SERVICE_NAME = 'OrderService';
 
 export interface IOrderService {
-  createOrder(request: ICreateOrderRequest): Observable<ICreateOrderResponse>;
+  createOrder(
+    request: ICreateOrderRequest,
+    metadata?: Metadata,
+  ): Observable<ICreateOrderResponse>;
   orderDetails(
     request: IOrderDetailsRequest,
+    metadata?: Metadata,
   ): Observable<IOrderDetailsResponse>;
 }
 

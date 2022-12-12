@@ -1,4 +1,4 @@
-import { Entity } from '../../common/domain-models';
+import { Entity } from '@app/common/domain-models';
 import { CategoryId } from './category-id';
 
 export interface ICategoryValues {

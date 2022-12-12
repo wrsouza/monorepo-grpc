@@ -1,4 +1,4 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, Param, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GrpcMethod } from '@nestjs/microservices';
 import { CATEGORY_SERVICE_NAME } from '@app/common/interfaces';
@@ -12,6 +12,8 @@ import {
   CategoryDetailsRequest,
   CategoryDetailsResponse,
 } from './application/queries';
+import { Roles } from '@app/common/decorators';
+import { GrpcAuthGuard } from '@app/common/guards';
 
 @Controller()
 export class CategoriesController {
@@ -20,17 +22,21 @@ export class CategoriesController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @Roles('create-category', 'admin')
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod(CATEGORY_SERVICE_NAME)
   async createCategory(
-    @Body() request: CreateCategoryRequest,
+    request: CreateCategoryRequest,
   ): Promise<CreateCategoryResponse> {
     const command = new CreateCategoryCommand(request);
     return this.commandBus.execute(command);
   }
 
+  @Roles('category-details', 'admin')
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod(CATEGORY_SERVICE_NAME)
   async categoryDetails(
-    @Param() request: CategoryDetailsRequest,
+    request: CategoryDetailsRequest,
   ): Promise<CategoryDetailsResponse> {
     const query = new CategoryDetailsQuery(request.id);
     return this.queryBus.execute(query);

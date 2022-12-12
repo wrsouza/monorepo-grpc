@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule } from '@nestjs/microservices';
-import { grpcProductsClient } from '@app/common/transports';
-import { CATEGORY_PACKAGE_NAME } from '@app/common/interfaces';
+import { grpcAuthClient, grpcProductsClient } from '@app/common/transports';
+import {
+  AUTH_PACKAGE_NAME,
+  CATEGORY_PACKAGE_NAME,
+} from '@app/common/interfaces';
 import { CategoriesController } from './categories.controller';
 
 @Module({
@@ -10,6 +13,10 @@ import { CategoriesController } from './categories.controller';
       {
         name: CATEGORY_PACKAGE_NAME,
         ...grpcProductsClient,
+      },
+      {
+        name: AUTH_PACKAGE_NAME,
+        ...grpcAuthClient,
       },
     ]),
   ],

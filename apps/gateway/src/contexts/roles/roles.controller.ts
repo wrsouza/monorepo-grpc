@@ -42,19 +42,19 @@ export class RolesController implements OnModuleInit {
   @UseGuards(JwtAuthGuard)
   createRole(
     @Request() { metadata },
-    @Body() createRoleRequest: CreateRoleRequest,
+    @Body() request: CreateRoleRequest,
   ): Observable<CreateRoleResponse> {
-    Logger.log(`POST createRole: ${JSON.stringify(createRoleRequest)}`);
-    return this.roleService.createRole(createRoleRequest, metadata);
+    Logger.log(`POST createRole: ${JSON.stringify(request)}`);
+    return this.roleService.createRole(request, metadata);
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   roleDetails(
     @Request() { metadata },
-    @Param() roleDetailsRequest: RoleDetailsRequest,
+    @Param() request: RoleDetailsRequest,
   ): Observable<RoleDetailsResponse> {
-    Logger.log(`GET RoleDetails: ${JSON.stringify(roleDetailsRequest)}`);
-    return this.roleService.roleDetails(roleDetailsRequest, metadata);
+    Logger.log(`GET RoleDetails: ${JSON.stringify(request)}`);
+    return this.roleService.roleDetails(request, metadata);
   }
 }

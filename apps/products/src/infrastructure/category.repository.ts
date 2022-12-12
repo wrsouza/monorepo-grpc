@@ -1,9 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import {
-  CategorySchema,
-  ICategory,
-} from '../../data/database/schemas/category.schema';
+import { CategorySchema, ICategory } from '@app/common/database/schemas';
 import { Category } from '../domain-models/category';
 import { CategoryMapper } from '../domain-models/category.mapper';
 

@@ -1,5 +1,5 @@
-import { IMapper } from '../../common/domain-models';
-import { IProduct } from '../../data/database/schemas/product.schema';
+import { IMapper } from '@app/common/domain-models';
+import { IProduct } from '@app/common/database/schemas';
 import { Category } from './category';
 import { CategoryId } from './category-id';
 import { Product } from './product';

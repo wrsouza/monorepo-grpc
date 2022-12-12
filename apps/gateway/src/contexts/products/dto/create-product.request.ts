@@ -3,27 +3,45 @@ import { IsArray, IsInt, IsNumber, IsString } from 'class-validator';
 import { ICreateProductRequest } from '@app/common/interfaces';
 
 export class CreateProductRequest implements ICreateProductRequest {
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'Product Test',
+  })
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: '123',
+  })
   @IsString()
   sku: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: 'product-test-123',
+  })
   @IsString()
   slug: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Number,
+    example: 150.89,
+  })
   @IsNumber()
   price: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Number,
+    example: 10,
+  })
   @IsInt()
   stock: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: [String],
+    example: [],
+  })
   @IsArray()
   categories: string[];
 }

@@ -7,6 +7,8 @@ import {
   OnModuleInit,
   Param,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -22,6 +24,7 @@ import {
   CustomerDetailsRequest,
   CustomerDetailsResponse,
 } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('Customers')
@@ -40,20 +43,22 @@ export class CustomersController implements OnModuleInit {
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   createCustomer(
-    @Body() createCustomerRequest: CreateCustomerRequest,
+    @Request() { metadata },
+    @Body() request: CreateCustomerRequest,
   ): Observable<CreateCustomerResponse> {
-    Logger.log(
-      `POST createCustomerRequest: ${JSON.stringify(createCustomerRequest)}`,
-    );
-    return this.customersService.createCustomer({ ...createCustomerRequest });
+    Logger.log(`POST createCustomerRequest: ${JSON.stringify(request)}`);
+    return this.customersService.createCustomer(request, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   customerDetails(
-    @Param() { id }: CustomerDetailsRequest,
+    @Request() { metadata },
+    @Param() request: CustomerDetailsRequest,
   ): Observable<CustomerDetailsResponse> {
-    Logger.log(`POST customerDetailsRequest: ${id}`);
-    return this.customersService.customerDetails({ id });
+    Logger.log(`POST customerDetailsRequest: ${JSON.stringify(request)}`);
+    return this.customersService.customerDetails(request, metadata);
   }
 }

@@ -8,6 +8,8 @@ import {
   Param,
   Post,
   Query,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -20,11 +22,10 @@ import {
 import {
   CreateProductRequest,
   CreateProductResponse,
-  PaginateProductsRequest,
-  PaginateProductsResponse,
   ProductDetailsRequest,
   ProductDetailsResponse,
 } from './dto';
+import { JwtAuthGuard } from '../../data/guards/jwt-auth.guard';
 
 @ApiBearerAuth()
 @ApiTags('Products')
@@ -41,29 +42,23 @@ export class ProductsController implements OnModuleInit {
       this.client.getService<IProductService>(PRODUCT_SERVICE_NAME);
   }
 
-  @Get()
-  paginateProducts(
-    @Query() paginateProductRequest: PaginateProductsRequest,
-  ): Observable<PaginateProductsResponse> {
-    Logger.log(
-      `GET paginateProducts: ${JSON.stringify(paginateProductRequest)}`,
-    );
-    return this.productService.paginateProducts(paginateProductRequest);
-  }
-
   @Post()
+  @UseGuards(JwtAuthGuard)
   createProduct(
-    @Body() createProductRequest: CreateProductRequest,
+    @Request() { metadata },
+    @Body() request: CreateProductRequest,
   ): Observable<CreateProductResponse> {
-    Logger.log(`POST createProduct: ${JSON.stringify(createProductRequest)}`);
-    return this.productService.createProduct(createProductRequest);
+    Logger.log(`POST createProduct: ${JSON.stringify(request)}`);
+    return this.productService.createProduct(request, metadata);
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   productDetails(
-    @Param() productDetailsRequest: ProductDetailsRequest,
+    @Request() { metadata },
+    @Param() request: ProductDetailsRequest,
   ): Observable<ProductDetailsResponse> {
-    Logger.log(`GET productDetails: ${JSON.stringify(productDetailsRequest)}`);
-    return this.productService.productDetails(productDetailsRequest);
+    Logger.log(`GET productDetails: ${JSON.stringify(request)}`);
+    return this.productService.productDetails(request, metadata);
   }
 }

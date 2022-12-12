@@ -1,11 +1,18 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const USER_PACKAGE_NAME = 'users';
 export const USER_SERVICE_NAME = 'UserService';
 
 export interface IUserService {
-  createUser(request: ICreateUserRequest): Observable<ICreateUserResponse>;
-  userDetails(request: IUserDetailsRequest): Observable<IUserDetailsResponse>;
+  createUser(
+    request: ICreateUserRequest,
+    metadata?: Metadata,
+  ): Observable<ICreateUserResponse>;
+  userDetails(
+    request: IUserDetailsRequest,
+    metadata?: Metadata,
+  ): Observable<IUserDetailsResponse>;
 }
 
 export interface ICreateUserRequest {

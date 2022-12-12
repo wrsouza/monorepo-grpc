@@ -1,5 +1,5 @@
-import { Aggregate } from '../../common/domain-models';
-import { IProduct } from '../../data/database/schemas/product.schema';
+import { Aggregate } from '@app/common/domain-models';
+import { IProduct } from '@app/common/database/schemas';
 import { Category } from './category';
 import { ProductId } from './product-id';
 

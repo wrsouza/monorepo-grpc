@@ -1,17 +1,17 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const PRODUCT_PACKAGE_NAME = 'products';
 export const PRODUCT_SERVICE_NAME = 'ProductService';
 
 export interface IProductService {
-  paginateProducts(
-    request: IPaginateProductsRequest,
-  ): Observable<IPaginateProductsResponse>;
   createProduct(
     request: ICreateProductRequest,
+    metadata?: Metadata,
   ): Observable<ICreateProductResponse>;
   productDetails(
     request: IProductDetailsRequest,
+    metadata?: Metadata,
   ): Observable<IProductDetailsResponse>;
 }
 

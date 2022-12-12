@@ -11,7 +11,10 @@ import { ShipmentTypeEnum } from '@app/common/database/schemas';
 import { ICreateOrderItemRequest } from '@app/common/interfaces';
 
 export class CreateOrderItemRequest implements ICreateOrderItemRequest {
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: '',
+  })
   @IsUUID()
   productId: string;
 
@@ -25,15 +28,24 @@ export class CreateOrderItemRequest implements ICreateOrderItemRequest {
 }
 
 export class CreateOrderRequest {
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    example: '',
+  })
   @IsUUID()
   customerId: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Number,
+    example: ShipmentTypeEnum.Free,
+  })
   @IsEnum(ShipmentTypeEnum)
   shipmentType: ShipmentTypeEnum;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: Number,
+    example: 10.89,
+  })
   @IsNumber()
   shipmentValue: number;
 

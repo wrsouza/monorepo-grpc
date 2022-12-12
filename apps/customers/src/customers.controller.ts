@@ -1,4 +1,4 @@
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Logger, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GrpcMethod } from '@nestjs/microservices';
 import { CUSTOMER_SERVICE_NAME } from '@app/common/interfaces';
@@ -12,6 +12,8 @@ import {
   CustomerDetailsRequest,
   CustomerDetailsResponse,
 } from './application/queries';
+import { GrpcAuthGuard } from '@app/common/guards';
+import { Roles } from '@app/common/decorators';
 
 @Controller()
 export class CustomersController {
@@ -20,22 +22,24 @@ export class CustomersController {
     private readonly queryBus: QueryBus,
   ) {}
 
+  @Roles('create-customer', 'admin')
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod(CUSTOMER_SERVICE_NAME)
   async createCustomer(
-    createCustomerRequest: CreateCustomerRequest,
+    request: CreateCustomerRequest,
   ): Promise<CreateCustomerResponse> {
-    Logger.log(
-      `GRPC createCustomerRequest: ${JSON.stringify(createCustomerRequest)}`,
-    );
-    const command = new CreateCustomerCommand(createCustomerRequest);
+    Logger.log(`GRPC createCustomerRequest: ${JSON.stringify(request)}`);
+    const command = new CreateCustomerCommand(request);
     return this.commandBus.execute(command);
   }
 
+  @Roles('customer-details', 'admin')
+  @UseGuards(GrpcAuthGuard)
   @GrpcMethod(CUSTOMER_SERVICE_NAME)
-  async customerDetails({
-    id,
-  }: CustomerDetailsRequest): Promise<CustomerDetailsResponse> {
-    const query = new CustomerDetailsQuery(id);
+  async customerDetails(
+    request: CustomerDetailsRequest,
+  ): Promise<CustomerDetailsResponse> {
+    const query = new CustomerDetailsQuery(request.id);
     return this.queryBus.execute(query);
   }
 }

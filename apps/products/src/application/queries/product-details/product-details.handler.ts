@@ -2,10 +2,7 @@ import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  IProduct,
-  ProductSchema,
-} from '../../../../data/database/schemas/product.schema';
+import { IProduct, ProductSchema } from '@app/common/database/schemas';
 import { ProductMapper } from '../../../domain-models/product.mapper';
 import { ProductDetailsQuery } from './product-details.query';
 import { ProductDetailsResponse } from './product-details.response';

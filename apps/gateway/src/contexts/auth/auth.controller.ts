@@ -38,8 +38,8 @@ export class AuthController implements OnModuleInit {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('validate')
-  validate(@Request() req) {
-    const { roles, ...result } = req.user;
+  validate(@Request() { user }) {
+    const { roles, ...result } = user;
     return result;
   }
 }

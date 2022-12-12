@@ -3,23 +3,8 @@ syntax = "proto3";
 package products;
 
 service ProductService {
-    rpc PaginateProducts(PaginateProductsRequest) returns (PaginateProductsResponse) {}
     rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse) {}
     rpc ProductDetails(ProductDetailsRequest) returns (ProductDetailsResponse) {}
-}
-
-message PaginateProductsRequest {
-    optional int32 page = 1;
-    optional int32 perPage = 2;
-    optional string sort = 3;
-}
-
-message PaginateProductsResponse {
-    repeated PaginateProductListResponse data = 1;
-    int32 page = 2;
-    int32 perPage = 3;
-    string sort = 4;
-    int32 total = 5;
 }
 
 message PaginateProductListResponse {

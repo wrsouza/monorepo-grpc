@@ -1,3 +1,4 @@
+import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
 export const CATEGORY_PACKAGE_NAME = 'categories';
@@ -6,9 +7,11 @@ export const CATEGORY_SERVICE_NAME = 'CategoryService';
 export interface ICategoryService {
   createCategory(
     request: ICreateCategoryRequest,
+    metadata?: Metadata,
   ): Observable<ICreateCategoryResponse>;
   categoryDetails(
     request: ICategoryDetailsRequest,
+    metadata?: Metadata,
   ): Observable<ICategoryDetailsResponse>;
 }
 

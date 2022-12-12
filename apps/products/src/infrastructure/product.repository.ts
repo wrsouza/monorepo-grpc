@@ -1,9 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import {
-  IProduct,
-  ProductSchema,
-} from '../../data/database/schemas/product.schema';
+import { IProduct, ProductSchema } from '@app/common/database/schemas';
 import { Product } from '../domain-models/product';
 import { ProductMapper } from '../domain-models/product.mapper';
 
