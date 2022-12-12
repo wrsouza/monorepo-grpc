@@ -9,7 +9,7 @@
 
 ## Description
 
-MonoRepo with gRPC, DDD and CQRS
+MonoRepo with gRPC, DDD, CQRS, Authentication and Authorization
 
 ## Installation
 
@@ -23,16 +23,22 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode grpc-api (default)
+# watch dev gateway (default)
 $ npm run start:dev
 
-# watch mode grpc-hybrid
-$ npm run start:dev grpc-hybrid
+# watch dev app auth
+$ npm run start:dev auth
 
-# watch mode app grpc-svc
-$ npm run start:dev grpc-svc
+# watch dev app customers
+$ npm run start:dev customers
 
-# watch mode library common
+# watch dev app products
+$ npm run start:dev products
+
+# watch dev app orders
+$ npm run start:dev orders
+
+# watch dev library common
 $ npm run start:dev common
 
 # production mode
@@ -44,9 +50,11 @@ $ npm run start:prod
 ```bash
 # edit/rename .env files with .env.example
 - libs/common/.env
-- apps/grpc-api/.env
-- apps/grpc-hybrid/.env
-- apps/grpc-svc/.env
+- apps/auth/.env
+- apps/customers/.env
+- apps/products/.env
+- apps/orders/.env
+- apps/gateway/.env
 
 # generate migration script
 $ npm run migration:generate libs/common/src/database/migrations/nome_da_migracao
