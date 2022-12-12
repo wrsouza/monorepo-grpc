@@ -21,7 +21,9 @@ message CreateAddressRequest {
 }
 
 message CreateCustomerResponse {
-    string id = 1;
+    int32 status = 1;
+    repeated string error = 2; 
+    string id = 3;
 }
 
 message CustomerDetailsRequest {
@@ -29,10 +31,12 @@ message CustomerDetailsRequest {
 }
 
 message CustomerDetailsResponse {
-    string id = 1;
-    string name = 2;
-    string documentNumber = 3;
-    AddressCustomerDetailsResponse address = 4;
+    int32 status = 1;
+    repeated string error = 2; 
+    string id = 3;
+    string name = 4;
+    string documentNumber = 5;
+    AddressCustomerDetailsResponse address = 6;
 }
 
 message AddressCustomerDetailsResponse {

@@ -20,8 +20,7 @@ export class CreateCustomerHandler
   async execute({
     createCustomer,
   }: CreateCustomerCommand): Promise<CreateCustomerResponse> {
-    const { documentNumber } = createCustomer;
-    await this.customerExists(documentNumber);
+    await this.customerExists(createCustomer.documentNumber);
 
     const customer = new Customer({
       ...createCustomer,

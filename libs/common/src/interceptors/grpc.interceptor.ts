@@ -20,7 +20,7 @@ export class GrpcInterceptor implements NestInterceptor {
         if (err.message.toUpperCase().indexOf('FORBIDDEN') !== -1) {
           return throwError(() => new ForbiddenException('Forbidden resource'));
         }
-        return throwError(() => new InternalServerErrorException(err.message));
+        return err;
       }),
       map((value) => {
         if (value.status === HttpStatus.BAD_REQUEST)
