@@ -3,7 +3,7 @@ import { CommandHandler, EventBus, ICommandHandler } from '@nestjs/cqrs';
 import { CreateRoleCommand } from './create-role.command';
 import { CreateRoleResponse } from './create-role.response';
 import { RoleCreatedLogEvent } from '../../events';
-import { Role, Permission, PermissionId, RoleId } from '../../../domain-models';
+import { Role, Permission, RoleId } from '../../../domain-models';
 import { RoleRepository, PermissionRepository } from '../../../infrastructure';
 
 @CommandHandler(CreateRoleCommand)
@@ -33,16 +33,8 @@ export class CreateRoleHandler implements ICommandHandler<CreateRoleCommand> {
   async getPermissions(createRole): Promise<Permission[]> {
     const permissions: Permission[] = [];
     for (const permissionId of createRole.permissions) {
-      const role = await this.findPermission(permissionId);
-      permissions.push(
-        new Permission({
-          id: new PermissionId(),
-          name: role.name,
-          description: role.description,
-          createdAt: role.createdAt,
-          updatedAt: role.updatedAt,
-        }),
-      );
+      const permission = await this.findPermission(permissionId);
+      permissions.push(permission);
     }
     return permissions;
   }
