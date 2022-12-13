@@ -1,6 +1,6 @@
 import { ICommand } from '@nestjs/cqrs';
-import { CreateCustomerRequest } from './create-customer.request';
+import { ICreateCustomerRequest } from '@app/common/interfaces';
 
 export class CreateCustomerCommand implements ICommand {
-  constructor(readonly createCustomer: CreateCustomerRequest) {}
+  constructor(readonly createCustomer: ICreateCustomerRequest) {}
 }

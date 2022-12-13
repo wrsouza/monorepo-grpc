@@ -64,4 +64,7 @@ $ npm run migration:run
 
 # revert migration
 $ npm run migration:revert
+
+# seeding database
+$ npm run db:seed
 ```

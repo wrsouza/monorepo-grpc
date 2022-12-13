@@ -7,6 +7,7 @@ const typeOrmConfig = new DataSource({
   type: 'postgres',
   url: process.env.CONNECTION_STRING,
   entities: [`${__dirname}/../schemas/*.schema{.js,.ts}`],
+  seeds: [`${__dirname}/../seeds/*.seeder{.js,.ts}`],
   synchronize: false,
   logging: true,
   migrations: [`${__dirname}/../migrations/**/*{.ts,.js}`],
