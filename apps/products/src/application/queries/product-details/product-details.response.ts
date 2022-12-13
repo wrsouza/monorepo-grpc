@@ -1,29 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '../../../domain-models/product';
 
 export class ProductDetailsResponse {
-  @ApiProperty()
   id: string;
-
-  @ApiProperty()
   name: string;
-
-  @ApiProperty()
   sku: string;
-
-  @ApiProperty()
   slug: string;
-
-  @ApiProperty()
   price: number;
-
-  @ApiProperty()
   stock: number;
-
-  @ApiProperty()
-  createdAt: Date;
-
-  @ApiProperty()
+  createdAt: string;
   categories: string[];
 
   constructor(product: Product) {
@@ -33,7 +17,7 @@ export class ProductDetailsResponse {
     this.slug = product.slug;
     this.price = product.price;
     this.stock = product.stock;
-    this.createdAt = product.createdAt;
+    this.createdAt = product.createdAt.toISOString();
     this.categories = product.categories.map((category) => category.id.value);
   }
 }

@@ -2,6 +2,7 @@ import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { UserSchema, RoleSchema } from '../schemas';
 import { v4 as uuid } from 'uuid';
+import { hashSync } from 'bcrypt';
 
 export default class UserSeeder implements Seeder {
   public async run(
@@ -16,7 +17,7 @@ export default class UserSeeder implements Seeder {
         id: uuid(),
         name: 'John Doe',
         email: 'john.doe@domain.com',
-        password: 'password',
+        password: hashSync('password', 8),
         isAdmin: false,
         roles,
       },
