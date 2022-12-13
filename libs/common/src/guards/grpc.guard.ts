@@ -40,6 +40,7 @@ export class GrpcAuthGuard implements CanActivate {
     }
 
     request.userId = payload.sub;
+    request.metadata = metadata;
 
     const requiredRoles = this.reflector.get<string[]>(
       ROLES_KEY,

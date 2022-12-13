@@ -32,5 +32,41 @@ message OrderDetailsRequest {
 }
 
 message OrderDetailsResponse {
-
+    int32 status = 1;
+    repeated string error = 2;
+    string id = 3;
+    float subtotal = 4;
+    int32 shipmentType = 5;
+    float shipmentValue = 6;
+    float discount = 7;
+    float total = 8;
+    string createdAt = 9;
+    OrderCustomerDetailsResponse customer = 10;
+    OrderAddressDetailsReponse address = 11;
+    repeated OrderItemDetailsResponse items = 12;
 }
+
+message OrderItemDetailsResponse {
+    string id = 1;
+    string name = 2;
+    string sku = 3;
+    int32 quantity = 4;
+    float price = 5;
+    float discount = 6;
+    string createdAt = 7;
+    string productId = 8;
+}
+
+message OrderCustomerDetailsResponse {
+    string customerId = 1;
+    string name = 2;
+    string documentNumber = 3;
+}
+
+message OrderAddressDetailsReponse {
+    string postalCode = 1;
+    string lineAddress = 2;
+    string city = 3;
+    string state = 4;
+}
+

@@ -15,8 +15,10 @@ export class CreateOrderHandler implements ICommandHandler<CreateOrderCommand> {
 
   async execute({
     createOrder,
+    metadata,
   }: CreateOrderCommand): Promise<CreateOrderResponse> {
-    const order = await this.service.createOrder(createOrder);
+    console.log('createOrder', createOrder);
+    const order = await this.service.createOrder(createOrder, metadata);
     await this.repository.saveOrder(order);
 
     const event = new OrderCreatedLogEvent(order);

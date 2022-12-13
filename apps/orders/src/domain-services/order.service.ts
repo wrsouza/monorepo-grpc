@@ -3,12 +3,14 @@ import {
   Injectable,
   NotFoundException,
   OnModuleInit,
+  Scope,
 } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import {
   CUSTOMER_PACKAGE_NAME,
   CUSTOMER_SERVICE_NAME,
+  ICreateOrderRequest,
   ICustomerDetailsResponse,
   ICustomerService,
   IProductDetailsResponse,
@@ -16,13 +18,15 @@ import {
   PRODUCT_PACKAGE_NAME,
   PRODUCT_SERVICE_NAME,
 } from '@app/common/interfaces';
-import { CreateOrderRequest } from '../application/commands/create-order/create-order.request';
 import { Order } from '../domain-models/order';
 import { OrderAddress } from '../domain-models/order-address';
 import { OrderCustomer } from '../domain-models/order-customer';
 import { OrderId } from '../domain-models/order-id';
 import { OrderItem } from '../domain-models/order-item';
 import { OrderItemId } from '../domain-models/order-item-id';
+import { REQUEST } from '@nestjs/core';
+import { Metadata } from '@grpc/grpc-js';
+import { Request } from 'express';
 
 @Injectable()
 export class OrderService implements OnModuleInit {
@@ -42,12 +46,18 @@ export class OrderService implements OnModuleInit {
       this.productClient.getService<IProductService>(PRODUCT_SERVICE_NAME);
   }
 
-  async createOrder(orderData: CreateOrderRequest): Promise<Order> {
-    const customerDomain = await this.findCustomer(orderData.customerId);
+  async createOrder(
+    orderData: ICreateOrderRequest,
+    metadata: Metadata,
+  ): Promise<Order> {
+    const customerDomain = await this.findCustomer(
+      orderData.customerId,
+      metadata,
+    );
     const customer = this.setOrderCustomer(customerDomain);
     const address = this.setOrderAddress(customerDomain);
 
-    const items = await this.getOrderItems(orderData);
+    const items = await this.getOrderItems(orderData, metadata);
     const subtotal = this.getSubTotal(items);
     const discount = this.getDiscount(items);
     const total = subtotal - discount + orderData.shipmentValue;
@@ -96,10 +106,13 @@ export class OrderService implements OnModuleInit {
     );
   }
 
-  async getOrderItems(orderData: CreateOrderRequest): Promise<OrderItem[]> {
+  async getOrderItems(
+    orderData: ICreateOrderRequest,
+    metadata: Metadata,
+  ): Promise<OrderItem[]> {
     const items: OrderItem[] = [];
     for (const item of orderData.items) {
-      const product = await this.findProduct(item.productId);
+      const product = await this.findProduct(item.productId, metadata);
       if (!product) {
         throw new NotFoundException(`product ${item.productId} not found`);
       }
@@ -118,9 +131,12 @@ export class OrderService implements OnModuleInit {
     return items;
   }
 
-  async findProduct(id: string): Promise<IProductDetailsResponse> {
+  async findProduct(
+    id: string,
+    metadata: Metadata,
+  ): Promise<IProductDetailsResponse> {
     const product = await firstValueFrom(
-      this.productService.productDetails({ id }),
+      this.productService.productDetails({ id }, metadata),
     );
     if (!product.id) {
       throw new NotFoundException(`product ${id} not found`);
@@ -128,9 +144,12 @@ export class OrderService implements OnModuleInit {
     return product;
   }
 
-  async findCustomer(id: string): Promise<ICustomerDetailsResponse> {
+  async findCustomer(
+    id: string,
+    metadata: Metadata,
+  ): Promise<ICustomerDetailsResponse> {
     const customer = await firstValueFrom(
-      this.customerService.customerDetails({ id }),
+      this.customerService.customerDetails({ id }, metadata),
     );
     if (!customer.id) {
       throw new NotFoundException(`customer ${id} not found`);

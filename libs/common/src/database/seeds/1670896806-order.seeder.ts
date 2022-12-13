@@ -52,7 +52,7 @@ export default class OrderSeeder implements Seeder {
           product: product,
         })),
         customer: {
-          id: customer.id,
+          customerId: customer.id,
           name: customer.name,
           documentNumber: customer.documentNumber,
         },

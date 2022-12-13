@@ -3,91 +3,39 @@ import { ShipmentTypeEnum } from '@app/common/database/schemas';
 import { Order } from '../../../domain-models/order';
 
 class AddressDetailsReponse {
-  @ApiProperty()
   postalCode: string;
-
-  @ApiProperty()
   lineAddress: string;
-
-  @ApiProperty()
   city: string;
-
-  @ApiProperty()
   state: string;
 }
 
 class CustomerDetailsResponse {
-  @ApiProperty()
   customerId: string;
-
-  @ApiProperty()
   name: string;
-
-  @ApiProperty()
   documentNumber: string;
 }
 
 export class OrderItemResponse {
-  @ApiProperty()
   id: string;
-
-  @ApiProperty()
   name: string;
-
-  @ApiProperty()
   sku: string;
-
-  @ApiProperty()
   quantity: number;
-
-  @ApiProperty()
   price: number;
-
-  @ApiProperty()
   discount: number;
-
-  @ApiProperty()
-  createdAt?: Date;
-
-  @ApiProperty()
+  createdAt?: string;
   productId?: string;
 }
 
 export class OrderDetailsResponse {
-  @ApiProperty()
   id: string;
-
-  @ApiProperty()
   subtotal: number;
-
-  @ApiProperty()
   shipmentType: ShipmentTypeEnum;
-
-  @ApiProperty()
   shipmentValue: number;
-
-  @ApiProperty()
   discount: number;
-
-  @ApiProperty()
   total: number;
-
-  @ApiProperty()
-  createdAt: Date;
-
-  @ApiProperty({
-    type: CustomerDetailsResponse,
-  })
+  createdAt: string;
   customer: CustomerDetailsResponse;
-
-  @ApiProperty({
-    type: AddressDetailsReponse,
-  })
   address: AddressDetailsReponse;
-
-  @ApiProperty({
-    type: [OrderItemResponse],
-  })
   items: OrderItemResponse[];
 
   constructor(order: Order) {
@@ -97,7 +45,7 @@ export class OrderDetailsResponse {
     this.shipmentValue = order.shipmentValue;
     this.discount = order.discount;
     this.total = order.total;
-    this.createdAt = order.createdAt;
+    this.createdAt = order.createdAt.toISOString();
 
     const { customer } = order;
     this.customer = {
@@ -121,7 +69,7 @@ export class OrderDetailsResponse {
       quantity: item.quantity,
       price: item.price,
       discount: item.discount,
-      createdAt: item.createdAt,
+      createdAt: item.createdAt.toISOString(),
       productId: item.productId,
     }));
   }

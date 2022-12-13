@@ -1,6 +1,10 @@
 import { ICommand } from '@nestjs/cqrs';
-import { CreateOrderRequest } from './create-order.request';
+import { ICreateOrderRequest } from '@app/common/interfaces';
+import { Metadata } from '@grpc/grpc-js';
 
 export class CreateOrderCommand implements ICommand {
-  constructor(readonly createOrder: CreateOrderRequest) {}
+  constructor(
+    readonly createOrder: ICreateOrderRequest,
+    readonly metadata: Metadata,
+  ) {}
 }

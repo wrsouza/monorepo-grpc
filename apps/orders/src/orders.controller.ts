@@ -1,10 +1,12 @@
 import { Controller, Logger, UseGuards } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { GrpcMethod } from '@nestjs/microservices';
-import { ORDER_SERVICE_NAME } from '@app/common/interfaces';
+import {
+  ICreateOrderRequest,
+  ORDER_SERVICE_NAME,
+} from '@app/common/interfaces';
 import {
   CreateOrderCommand,
-  CreateOrderRequest,
   CreateOrderResponse,
 } from './application/commands';
 import {
@@ -14,6 +16,7 @@ import {
 } from './application/queries';
 import { Roles } from '@app/common/decorators';
 import { GrpcAuthGuard } from '@app/common/guards';
+import { Metadata } from '@grpc/grpc-js';
 
 @Controller()
 export class OrdersController {
@@ -25,9 +28,12 @@ export class OrdersController {
   @Roles('create-order', 'admin')
   @UseGuards(GrpcAuthGuard)
   @GrpcMethod(ORDER_SERVICE_NAME)
-  async createOrder(request: CreateOrderRequest): Promise<CreateOrderResponse> {
+  async createOrder(
+    request: ICreateOrderRequest,
+    metadata: Metadata,
+  ): Promise<CreateOrderResponse> {
     Logger.log(`GRPC createOrderRequest: ${JSON.stringify(request)}`);
-    const command = new CreateOrderCommand(request);
+    const command = new CreateOrderCommand(request, metadata);
     return this.commandBus.execute(command);
   }
 
