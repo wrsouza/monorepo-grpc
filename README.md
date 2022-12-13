@@ -68,3 +68,6 @@ $ npm run migration:revert
 # seeding database
 $ npm run db:seed
 ```
+## Software Architecture
+
+<img src="https://github.com/wrsouza/monorepo-grpc/raw/master/monorepo.svg" />
